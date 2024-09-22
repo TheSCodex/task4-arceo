@@ -7,7 +7,7 @@ function Dashboard() {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const listUrl = "http://localhost:8080/task4/list-user";
+  const listUrl = "https://task4-back.onrender.com/task4/list-user";
 
   const getUserData = useCallback(async () => {
     setLoading(true);
@@ -65,7 +65,7 @@ function Dashboard() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:8080/task4/delete-user", {
+      const response = await fetch("https://task4-back.onrender.com/task4/delete-user", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +93,7 @@ function Dashboard() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:8080/task4/block-user", {
+      const response = await fetch("https://task4-back.onrender.com/task4/block-user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,7 +123,7 @@ function Dashboard() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:8080/task4/unblock-user", {
+      const response = await fetch("https://task4-back.onrender.com/task4/unblock-user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

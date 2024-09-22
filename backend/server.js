@@ -9,13 +9,25 @@ const app = express();
 
 app.use(express.json());
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://task4-ze7dhhsm6-emmanuels-projects-0650c044.vercel.app"
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, origin);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: "GET, POST, PUT, DELETE, PATCH",
     allowedHeaders: "Content-Type",
   })
 );
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

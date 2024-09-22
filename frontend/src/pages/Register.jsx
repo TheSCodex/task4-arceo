@@ -10,7 +10,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/task4/create-user", {
+      const response = await fetch("https://task4-back.onrender.com/task4/create-user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
