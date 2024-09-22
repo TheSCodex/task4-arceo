@@ -10,36 +10,26 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://task4-back.onrender.com/task4/create-user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, name }),
-      });
+      const response = await fetch(
+        "https://task4-back.onrender.com/task4/create-user",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password, name }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         setSuccess(true);
       } else {
-        switch (response.status) {
-          case 400:
-            setErrors([data.message || "Invalid input."]);
-            break;
-          case 409:
-            setErrors([data.message || "User with this email already exists."]);
-            break;
-          case 500:
-            setErrors([data.message || "An unexpected error occurred."]);
-            break;
-          default:
-            setErrors([
-              data.message ||
-                "An unexpected error occurred. Please try again later.",
-            ]);
-            break;
-        }
+        setErrors([
+          data.message ||
+            "An unexpected error occurred. Please try again later.",
+        ]);
       }
     } catch (error) {
       console.error("Error creating user:", error);
@@ -70,7 +60,7 @@ const Register = () => {
                   className="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2"
                   htmlFor="name"
                 >
-                  Email Address
+                  Name
                 </label>
                 <input
                   id="name"
