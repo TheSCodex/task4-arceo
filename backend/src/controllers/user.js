@@ -56,84 +56,58 @@ export const createUser = async (req, res) => {
 };
 
 export const blockUser = async (req, res) => {
-  const userId = req.params.id;
-  if (!userId) {
-    return res
-      .status(400)
-      .json({ message: "No id was received to query the database" });
-  }
-  const user = await User.findOne({ where: { id: userId } });
-  if (!user) {
-    return res.status(404).json({ message: "No user was found" });
+  const userIds = req.body.ids;
+  if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+    return res.status(400).json({ message: "No ids were received to block users" });
   }
   try {
     await User.update(
-      {
-        status: "blocked",
-      },
-      {
-        where: {
-          id: userId,
-        },
-      }
+      { status: "blocked" },
+      { where: { id: userIds } } 
     );
-    return res.status(200).json({ message: "User blocked successfully" });
+    return res.status(200).json({ message: "Users blocked successfully" });
   } catch (error) {
-    console.error("An error ocurred while trying to block this user", error);
-    return res.status(500).json({ message: "Unable to block user" });
+    console.error("An error occurred while trying to block users", error);
+    return res.status(500).json({ message: "Unable to block users" });
   }
 };
 
 export const unBlockUser = async (req, res) => {
-  const userId = req.params.id;
-  if (!userId) {
-    return res
-      .status(400)
-      .json({ message: "No id was received to query the database" });
-  }
-  const user = await User.findOne({ where: { id: userId } });
-  if (!user) {
-    return res.status(404).json({ message: "No user was found" });
+  const userIds = req.body.ids; 
+  if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+    return res.status(400).json({ message: "No ids were received to unblock users" });
   }
   try {
     await User.update(
-      {
-        status: "active",
-      },
-      {
-        where: {
-          id: userId,
-        },
-      }
+      { status: "active" },
+      { where: { id: userIds } } 
     );
-    return res.status(200).json({ message: "User unblocked successfully" });
+    return res.status(200).json({ message: "Users unblocked successfully" });
   } catch (error) {
-    console.error("An error ocurred while trying to unblock this user", error);
-    return res.status(500).json({ message: "Unable to unblock user" });
+    console.error("An error occurred while trying to unblock users", error);
+    return res.status(500).json({ message: "Unable to unblock users" });
   }
 };
 
 export const deleteUser = async (req, res) => {
-  const userId = req.params.id;
-  if (!userId) {
-    return res
-      .status(400)
-      .json({ message: "No id was received to query the database" });
+  const userIds = req.body.ids; // Expecting an array of IDs
+  if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+    return res.status(400).json({ message: "No ids were received to delete users" });
   }
-  const user = await User.findOne({ where: { id: userId } });
-  if (!user) {
-    return res.status(404).json({ message: "No user was found" });
-  }
+
   try {
+    // Delete all user IDs provided
     await User.destroy({
-      where: { id: userId },
+      where: { id: userIds } // Use the array of IDs directly
     });
-    return res.status(200).json({ message: "User deleted successfully" });
+
+    return res.status(200).json({ message: "Users deleted successfully" });
   } catch (error) {
-    console.error("An error ocurred while trying to block this user", error);
-    return res.status(500).json({ message: "Unable to delete user" });
+    console.error("An error occurred while trying to delete users", error);
+    return res.status(500).json({ message: "Unable to delete users" });
   }
 };
+
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
